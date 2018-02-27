@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Arachnee.InnerCore.Tests.GraphBases.Tests
 {
     [TestFixture]
-    public class Tests_UndirectedUnweightedGraph
+    public class UndirectedUnweightedGraphTests
     {
         [SetUp]
         public void SetUp()

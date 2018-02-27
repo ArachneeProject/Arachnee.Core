@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Arachnee.InnerCore.LoggerBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-//using Assets.Classes.Logging;
 
 namespace Arachnee.InnerCore.GraphBases
 {
@@ -14,6 +13,8 @@ namespace Arachnee.InnerCore.GraphBases
         public int EdgeCount => _adjacencyCollection.Values.Sum(adjacencyCollectionValue => adjacencyCollectionValue.Count) / 2;
         public IEnumerable<T> Vertices => _adjacencyCollection.Keys;
         
+        public ILogger Logger { get; set; }
+
         public virtual bool AddVertex(T vertex)
         {
             var alreadyPresent = _adjacencyCollection.ContainsKey(vertex);
@@ -42,7 +43,7 @@ namespace Arachnee.InnerCore.GraphBases
 
                 if (source.Equals(target))
                 {
-                    //////Logger.LogError($"Self edge on \"{source}\" is ignored.");
+                    Logger?.LogError($"Self edge on \"{source}\" is ignored.");
                     added = false;
                     continue;
                 }
@@ -85,19 +86,19 @@ namespace Arachnee.InnerCore.GraphBases
 
             if (!this.ContainsVertex(sourceVertex))
             {
-                //Logger.LogError($"\"{sourceVertex}\" doesn't exist.");
+                Logger?.LogError($"\"{sourceVertex}\" doesn't exist.");
                 return new List<T>();
             }
 
             if (!this.ContainsVertex(targetVertex))
             {
-                //Logger.LogError($"\"{targetVertex}\" doesn't exist.");
+                Logger?.LogError($"\"{targetVertex}\" doesn't exist.");
                 return new List<T>();
             }
 
             if (sourceVertex.Equals(targetVertex))
             {
-                //Logger.LogWarning($"Asking for shortest path between a vertex and itself \"{sourceVertex}\" returns an empty path.");
+                Logger?.LogWarning($"Asking for shortest path between a vertex and itself \"{sourceVertex}\" returns an empty path.");
                 return new List<T>();
             }
 
@@ -128,7 +129,7 @@ namespace Arachnee.InnerCore.GraphBases
                 return _adjacencyCollection[vertex];
             }
 
-            //Logger.LogError($"\"{vertex}\" doesn't exist.");
+            Logger?.LogError($"\"{vertex}\" doesn't exist.");
             return new HashSet<T>();
         }
     }
