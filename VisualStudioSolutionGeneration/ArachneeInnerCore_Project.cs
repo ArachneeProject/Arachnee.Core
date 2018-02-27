@@ -5,9 +5,9 @@ namespace SharpmakeGeneration
 {
     // Represents the project that will be generated.
     [Generate]
-    public class ArachneeInnerCoreProject : CSharpProject
+    public class ArachneeInnerCore_Project : CSharpProject
     {
-        public ArachneeInnerCoreProject()
+        public ArachneeInnerCore_Project()
         {
             Name = "Arachnee.InnerCore";
             SourceRootPath = "[project.SharpmakeCsPath]/../Core/InnerCore";
@@ -29,5 +29,5 @@ namespace SharpmakeGeneration
             // conf.ReferencesByNuGetPackage.Add("NUnit", "3.9.0");
             // conf.AddPrivateDependency<InteropLibrary>(target);
         }
-    }
+    }	
 }

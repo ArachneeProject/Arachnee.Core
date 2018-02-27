@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Classes.Logging;
+//using Assets.Classes.Logging;
 
 namespace Assets.Classes.Core.Graph
 {
@@ -41,7 +41,7 @@ namespace Assets.Classes.Core.Graph
 
                 if (source.Equals(target))
                 {
-                    Logger.LogError($"Self edge on \"{source}\" is ignored.");
+                    //////Logger.LogError($"Self edge on \"{source}\" is ignored.");
                     added = false;
                     continue;
                 }
@@ -84,19 +84,19 @@ namespace Assets.Classes.Core.Graph
 
             if (!this.ContainsVertex(sourceVertex))
             {
-                Logger.LogError($"\"{sourceVertex}\" doesn't exist.");
+                //Logger.LogError($"\"{sourceVertex}\" doesn't exist.");
                 return new List<T>();
             }
 
             if (!this.ContainsVertex(targetVertex))
             {
-                Logger.LogError($"\"{targetVertex}\" doesn't exist.");
+                //Logger.LogError($"\"{targetVertex}\" doesn't exist.");
                 return new List<T>();
             }
 
             if (sourceVertex.Equals(targetVertex))
             {
-                Logger.LogWarning($"Asking for shortest path between a vertex and itself \"{sourceVertex}\" returns an empty path.");
+                //Logger.LogWarning($"Asking for shortest path between a vertex and itself \"{sourceVertex}\" returns an empty path.");
                 return new List<T>();
             }
 
@@ -127,7 +127,7 @@ namespace Assets.Classes.Core.Graph
                 return _adjacencyCollection[vertex];
             }
 
-            Logger.LogError($"\"{vertex}\" doesn't exist.");
+            //Logger.LogError($"\"{vertex}\" doesn't exist.");
             return new HashSet<T>();
         }
     }

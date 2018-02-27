@@ -292,3 +292,5 @@ __pycache__/
 *.csproj
 
 outputs/
+
+outputs\.tests/

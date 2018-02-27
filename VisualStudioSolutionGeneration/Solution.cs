@@ -1,7 +1,8 @@
 using System.IO;
 using Sharpmake;
 
-[module: Sharpmake.Include("Projects.cs")]
+[module: Sharpmake.Include("ArachneeInnerCore_Project.cs")]
+[module: Sharpmake.Include("ArachneeInnerCore_TestsProject.cs")]
 
 namespace SharpmakeGeneration
 {
@@ -29,7 +30,10 @@ namespace SharpmakeGeneration
             conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..");
 
             // Add projects here
-            conf.AddProject<ArachneeInnerCoreProject>(target);
+            conf.AddProject<ArachneeInnerCore_Project>(target);
+			
+			// Tests projects
+            conf.AddProject<ArachneeInnerCore_TestsProject>(target);
         }
 
         public static Target Target
