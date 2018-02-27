@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Classes.Core.Graph
+namespace Arachnee.InnerCore.GraphBases
 {
     public interface IGraph<T>
     {

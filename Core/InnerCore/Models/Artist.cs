@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Classes.Core.Models
+namespace Arachnee.InnerCore.Models
 {
     public class Artist : Entry
     {

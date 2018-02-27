@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Classes.Core.Models
+namespace Arachnee.InnerCore.Models
 {
     public class TvSeries : Entry
     {

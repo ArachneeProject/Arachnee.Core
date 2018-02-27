@@ -1,4 +1,4 @@
-﻿namespace Assets.Classes.Core.Models
+﻿namespace Arachnee.InnerCore.Models
 {
     public enum ConnectionType
     {

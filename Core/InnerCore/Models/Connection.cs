@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Assets.Classes.Core.Models
+namespace Arachnee.InnerCore.Models
 {
     public class Connection
     {

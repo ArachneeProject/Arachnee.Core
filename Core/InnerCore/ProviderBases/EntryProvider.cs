@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Arachnee.InnerCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Classes.Core.Models;
 
-namespace Assets.Classes.Core.EntryProviders
+namespace Arachnee.InnerCore.ProviderBases
 {
     public abstract class EntryProvider : IEntryProvider
     {

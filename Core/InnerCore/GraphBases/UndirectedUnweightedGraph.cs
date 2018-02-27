@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 //using Assets.Classes.Logging;
 
-namespace Assets.Classes.Core.Graph
+namespace Arachnee.InnerCore.GraphBases
 {
     public class UndirectedUnweightedGraph<T> : IGraph<T>
     {

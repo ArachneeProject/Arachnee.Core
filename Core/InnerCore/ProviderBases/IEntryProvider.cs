@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Assets.Classes.Core.Models;
+﻿using Arachnee.InnerCore.Models;
+using System.Collections.Generic;
 
-namespace Assets.Classes.Core.EntryProviders
+namespace Arachnee.InnerCore.ProviderBases
 {
     public interface IEntryProvider
     {

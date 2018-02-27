@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Classes.Core.Graph;
+﻿using Arachnee.InnerCore.GraphBases;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
-namespace Arachnee.Tests.Test_CompactGraph
+namespace Arachnee.InnerCore.Tests.GraphBases.Tests
 {
     [TestFixture]
     public class Tests_UndirectedUnweightedGraph
