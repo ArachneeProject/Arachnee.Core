@@ -13,9 +13,8 @@ namespace Arachnee.InnerCore.ProviderBases
         {
             Entries = new List<Entry>
             {
-                new Movie
+                new Movie("Movie-280")
                 {
-                    Id = "Movie-280",
                     Title = "Terminator 2: Judgment Day",
                     Connections = new List<Connection>
                     {
@@ -40,9 +39,8 @@ namespace Arachnee.InnerCore.ProviderBases
                         }
                     }
                 },
-                new Artist
+                new Artist("Artist-1100")
                 {
-                    Id = "Artist-1100",
                     Name = "Arnold Schwarzenegger",
                     Connections = new List<Connection>
                     {
@@ -54,9 +52,8 @@ namespace Arachnee.InnerCore.ProviderBases
                         }
                     }
                 },
-                new Artist
+                new Artist("Artist-2710")
                 {
-                    Id = "Artist-2710",
                     Name = "James Cameron",
                     Connections = new List<Connection>
                     {

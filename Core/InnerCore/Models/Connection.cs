@@ -13,7 +13,7 @@ namespace Arachnee.InnerCore.Models
         public string Label { get; set; }
 
         /// <summary>
-        /// Utility method to get all available ConnectionType values.
+        /// Returns all available ConnectionType values.
         /// </summary>
         public static ICollection<ConnectionType> AllTypes()
         {

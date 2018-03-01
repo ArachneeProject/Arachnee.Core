@@ -13,15 +13,19 @@ namespace Arachnee.InnerCore.Models
         public string Name { get; set; }
         public long NumberOfEpisodes { get; set; }
         public long NumberOfSeasons { get; set; }
-        public List<string> OriginCountry { get; set; }
         public string OriginalLanguage { get; set; }
         public string OriginalName { get; set; }
+        public List<string> OriginCountry { get; set; }
         public string Overview { get; set; }
         public double Popularity { get; set; }
         public string PosterPath { get; set; }
         public string Status { get; set; }
         public double VoteAverage { get; set; }
         public long VoteCount { get; set; }
+
+        public TvSeries(string id) : base(id)
+        {
+        }
 
         public override string ToString()
         {

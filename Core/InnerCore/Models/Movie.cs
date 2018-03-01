@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Arachnee.InnerCore.Models
 {
@@ -6,9 +7,7 @@ namespace Arachnee.InnerCore.Models
     {
         public string BackdropPath { get; set; }
 
-        public int Budget { get; set; }
-
-        public List<string> Tags { get; set; }
+        public long Budget { get; set; }
 
         public string Homepage { get; set; }
 
@@ -21,22 +20,28 @@ namespace Arachnee.InnerCore.Models
         public string Overview { get; set; }
 
         public float Popularity { get; set; }
-        
-        public string ReleaseDate { get; set; }
 
-        public int Revenue { get; set; }
+        public DateTime ReleaseDate { get; set; }
 
-        public int Runtime { get; set; }
+        public long Revenue { get; set; }
 
-        public string Status { get; set; }
+        public TimeSpan Runtime { get; set; }
+
+        public ReleaseStatus Status { get; set; }
 
         public string Tagline { get; set; }
+
+        public List<string> Tags { get; set; }
 
         public string Title { get; set; }
 
         public float VoteAverage { get; set; }
 
         public int VoteCount { get; set; }
+
+        public Movie(string id) : base(id)
+        {
+        }
 
         public override string ToString()
         {

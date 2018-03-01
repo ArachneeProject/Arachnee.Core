@@ -2,12 +2,11 @@
 {
     public class DefaultEntry : Entry
     {
-        private static DefaultEntry _singleton;
+        public static DefaultEntry Instance = new DefaultEntry();
 
-        public static DefaultEntry Instance => _singleton ?? (_singleton = new DefaultEntry());
-
-        private DefaultEntry()
+        private DefaultEntry() : base(string.Empty)
         {
+            MainImagePath = string.Empty;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Arachnee.InnerCore.Models
 {
@@ -6,9 +7,9 @@ namespace Arachnee.InnerCore.Models
     {
         public string Biography { get; set; }
 
-        public string Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
-        public string Deathday { get; set; }
+        public DateTime? Deathday { get; set; }
         
         public string Homepage { get; set; }
 
@@ -25,6 +26,10 @@ namespace Arachnee.InnerCore.Models
         public override string ToString()
         {
             return $"{Name} ({Id})";
+        }
+
+        public Artist(string id) : base(id)
+        {
         }
     }
 }
