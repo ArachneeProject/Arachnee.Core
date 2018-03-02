@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Arachnee.InnerCore.ProviderBases
 {
-    public class MiniSampleProvider : EntryProvider
+    public class MiniSampleProvider : CacheEntryProvider
     {
         public readonly List<Entry> Entries;
 
@@ -72,19 +74,51 @@ namespace Arachnee.InnerCore.ProviderBases
                 }
             };
         }
-
-        /// <summary>
-        /// Returns a queue containing the item corresponding to the query.
-        /// </summary>
-        public override Queue<SearchResult> GetSearchResults(string searchQuery)
+        
+        public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, IProgress<double> progress, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return new Task<IList<SearchResult>>(() =>
+            {
+                var result = new List<SearchResult>();
+
+                foreach (var movie in Entries.OfType<Movie>())
+                {
+                    if (movie.Title.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result.Add(new SearchResult
+                        {
+                            Date = movie.ReleaseDate.ToShortTimeString(),
+                            EntryId = movie.Id,
+                            ImagePath = movie.MainImagePath,
+                            SearchResultType = SearchResultType.Movie
+                        });
+                    }
+                }
+
+                foreach (var artist in Entries.OfType<Artist>())
+                {
+                    if (artist.Name.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result.Add(new SearchResult
+                        {
+                            Date = artist.Birthday.ToShortTimeString(),
+                            EntryId = artist.Id,
+                            ImagePath = artist.MainImagePath,
+                            SearchResultType = SearchResultType.Person
+                        });
+                    }
+                }
+
+                return result;
+            });
         }
 
-        protected override bool TryLoadEntry(string entryId, out Entry entry)
+        protected override Task<Entry> LoadEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken)
         {
-            entry = Entries.FirstOrDefault(e => e.Id == entryId);
-            return entry != null;
+            return new Task<Entry>(() =>
+            {
+                return Entries.FirstOrDefault(e => e.Id == entryId);
+            });
         }
     }
 }

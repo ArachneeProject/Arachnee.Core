@@ -1,33 +1,28 @@
-﻿using Arachnee.InnerCore.Models;
+﻿using Arachnee.InnerCore.LoggerBases;
+using Arachnee.InnerCore.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Arachnee.InnerCore.ProviderBases
 {
     public interface IEntryProvider
     {
         /// <summary>
-        /// Runs a search to get a queue of entries corresponding to the given query. First item in the queue is the best result.
+        /// Logger of the provider so it is able to log informations and errors.
         /// </summary>
-        /// <param name="searchQuery">The query to run.</param>
-        /// <returns>Queue of the results. Best result is on top of the queue.</returns>
-        Queue<SearchResult> GetSearchResults(string searchQuery);
+        ILogger Logger { set; }
+        
+        /// <summary>
+        /// Runs a search to get a list of entries corresponding to the given query. 
+        /// First item in the list is the best result.
+        /// </summary>
+        Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, IProgress<double> progress, CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the entry corresponding to the given id.
         /// </summary>
-        /// <param name="entryId">Id of the entry.</param>
-        /// <param name="entry">The resulting entry.</param>
-        /// <returns>Wheter or not the function succeded.</returns>
-        bool TryGetEntry(string entryId, out Entry entry);
-
-        /// <summary>
-        /// Gets all entries connected to the given entry id by at least one of the given connection type.
-        /// </summary>
-        /// <typeparam name="TEntry">Type of the connected entries.</typeparam>
-        /// <param name="entryId">Id of the entry.</param>
-        /// <param name="connectionTypes">Types of connection.</param>
-        /// <param name="entries">The resulting connected entries.</param>
-        /// <returns>Wheter or not the function succeded.</returns>
-        bool TryGetConnectedEntries<TEntry>(string entryId, List<ConnectionType> connectionTypes, out IEnumerable<TEntry> entries) where TEntry : Entry;
+        Task<Entry> GetEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken);
     }
 }
