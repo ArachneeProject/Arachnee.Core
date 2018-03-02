@@ -21,7 +21,7 @@ namespace Arachnee.InnerCore.Models
 
         public string PlaceOfBirth { get; set; }
 
-        public float Popularity { get; set; }
+        public double Popularity { get; set; }
         
         public override string ToString()
         {

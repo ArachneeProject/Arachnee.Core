@@ -19,7 +19,7 @@ namespace Arachnee.InnerCore.Models
 
         public string Overview { get; set; }
 
-        public float Popularity { get; set; }
+        public double Popularity { get; set; }
 
         public DateTime ReleaseDate { get; set; }
 
@@ -35,7 +35,7 @@ namespace Arachnee.InnerCore.Models
 
         public string Title { get; set; }
 
-        public float VoteAverage { get; set; }
+        public double VoteAverage { get; set; }
 
         public int VoteCount { get; set; }
 

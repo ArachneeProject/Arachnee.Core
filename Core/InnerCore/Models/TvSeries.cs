@@ -6,13 +6,13 @@ namespace Arachnee.InnerCore.Models
     public class TvSeries : Entry
     {
         public string BackdropPath { get; set; }
-        public List<long> EpisodeRunTime { get; set; }
+        public List<TimeSpan> EpisodeRunTime { get; set; }
         public DateTime FirstAirDate { get; set; }
         public bool InProduction { get; set; }
-        public DateTime LastAirDate { get; set; }
+        public DateTime? LastAirDate { get; set; }
         public string Name { get; set; }
-        public long NumberOfEpisodes { get; set; }
-        public long NumberOfSeasons { get; set; }
+        public int NumberOfEpisodes { get; set; }
+        public int NumberOfSeasons { get; set; }
         public string OriginalLanguage { get; set; }
         public string OriginalName { get; set; }
         public List<string> OriginCountry { get; set; }

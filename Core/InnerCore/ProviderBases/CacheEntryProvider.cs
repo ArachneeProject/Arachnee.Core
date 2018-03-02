@@ -23,16 +23,19 @@ namespace Arachnee.InnerCore.ProviderBases
         public async Task<Entry> GetEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken)
         {
             Logger?.LogDebug($"Requesting entry \"{entryId}\"...");
+            progress?.Report(0);
 
             if (string.IsNullOrEmpty(entryId))
             {
-                throw new ArgumentException("Unable to provide an entry because the given id was empty", nameof(entryId));
+                Logger?.LogError("Unable to provide an entry because the given id was empty.");
+                progress?.Report(1);
+                return DefaultEntry.Instance;
             }
 
             if (cancellationToken.IsCancellationRequested)
             {
                 Logger?.LogDebug($"Request of entry \"{entryId}\" was cancelled.");
-                progress.Report(1);
+                progress?.Report(1);
                 return DefaultEntry.Instance;
             }
 
@@ -40,7 +43,7 @@ namespace Arachnee.InnerCore.ProviderBases
             if (CachedEntries.TryGetValue(entryId, out entry))
             {
                 Logger?.LogDebug($"Entry \"{entryId}\" found in cache: {entry}.");
-                progress.Report(1);
+                progress?.Report(1);
                 return entry;
             }
 
@@ -48,14 +51,14 @@ namespace Arachnee.InnerCore.ProviderBases
             if (Entry.IsNullOrDefault(entry))
             {
                 Logger?.LogWarning($"Entry \"{entryId}\" not found, default entry will be returned.");
-                progress.Report(1);
+                progress?.Report(1);
                 return DefaultEntry.Instance;
             }
             
-            CachedEntries.TryAdd(entryId, entry);
+            CachedEntries.AddOrUpdate(entryId, entry);
 
             Logger?.LogDebug($"Entry \"{entryId}\" found: {entry}.");
-            progress.Report(1);
+            progress?.Report(1);
             return entry;
         }
 
@@ -66,13 +69,13 @@ namespace Arachnee.InnerCore.ProviderBases
             where TEntry : Entry
         {
             Logger?.LogDebug($"Requesting {typeof(TEntry).Name} connections \"{string.Join(",", connectionTypes)}\" on \"{entryId}\"...");
-            progress.Report(0);
+            progress?.Report(0);
 
-            var entry = await GetEntryAsync(entryId, new Progress<double>(value => progress.Report(value / SeedProgress)), cancellationToken);
+            var entry = await GetEntryAsync(entryId, new Progress<double>(value => progress?.Report(value / SeedProgress)), cancellationToken);
             if (Entry.IsNullOrDefault(entry))
             {
                 Logger?.LogDebug($"No connection returned for \"{entryId}\".");
-                progress.Report(1);
+                progress?.Report(1);
                 return new List<TEntry>();
             }
             
@@ -89,7 +92,7 @@ namespace Arachnee.InnerCore.ProviderBases
 
                 progressCount++;
                 var count = progressCount;
-                var subProgress = new Progress<double>(value => progress.Report(SeedProgress + count * (1 - SeedProgress) / validConnections.Count));
+                var subProgress = new Progress<double>(value => progress?.Report(SeedProgress + count * (1 - SeedProgress) / validConnections.Count));
 
                 var oppositeEntry = await GetEntryAsync(connection.ConnectedId, subProgress, cancellationToken);
 

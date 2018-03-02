@@ -6,9 +6,9 @@ namespace Arachnee.InnerCore.ProviderBases
     {
         private readonly ConcurrentDictionary<TKey, TValue> _cache = new ConcurrentDictionary<TKey, TValue>();
 
-        public bool TryAdd(TKey key, TValue value)
+        public void AddOrUpdate(TKey key, TValue value)
         {
-            return _cache.TryAdd(key, value);
+            _cache.AddOrUpdate(key, k => value, (k, oldValue) => value);
         }
 
         public bool TryGetValue(TKey key, out TValue value)

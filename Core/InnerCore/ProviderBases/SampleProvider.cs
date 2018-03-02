@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Arachnee.InnerCore.ProviderBases
 {
-    public class MiniSampleProvider : CacheEntryProvider
+    public class SampleProvider : CacheEntryProvider
     {
-        public readonly List<Entry> Entries;
+        public List<Entry> Entries { get; }
 
-        public MiniSampleProvider()
+        public SampleProvider()
         {
             Entries = new List<Entry>
             {
@@ -37,7 +37,8 @@ namespace Arachnee.InnerCore.ProviderBases
                         new Connection
                         {
                             ConnectedId = "Artist-1100",
-                            Type = ConnectionType.Actor
+                            Type = ConnectionType.Actor,
+                            Label = "T-800"
                         }
                     }
                 },
@@ -77,9 +78,9 @@ namespace Arachnee.InnerCore.ProviderBases
         
         public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, IProgress<double> progress, CancellationToken cancellationToken)
         {
-            return new Task<IList<SearchResult>>(() =>
+            return Task.Run(() =>
             {
-                var result = new List<SearchResult>();
+                IList<SearchResult> result = new List<SearchResult>();
 
                 foreach (var movie in Entries.OfType<Movie>())
                 {
@@ -110,15 +111,15 @@ namespace Arachnee.InnerCore.ProviderBases
                 }
 
                 return result;
-            });
+            }, cancellationToken);
         }
 
         protected override Task<Entry> LoadEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken)
         {
-            return new Task<Entry>(() =>
+            return Task.Run(() =>
             {
                 return Entries.FirstOrDefault(e => e.Id == entryId);
-            });
+            }, cancellationToken);
         }
     }
 }

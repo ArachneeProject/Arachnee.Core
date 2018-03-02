@@ -9,9 +9,13 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
         [Test]
         public void IsNullOrDefault_ValidEntry_ReturnsFalse()
         {
-            var entry = new Movie("Movie-280");
+            var movie = new Movie("Movie-280");
+            var artist = new Artist("Artist-1100");
+            var tv = new TvSeries("TvSeries-433");
 
-            Assert.IsFalse(Entry.IsNullOrDefault(entry));
+            Assert.IsFalse(Entry.IsNullOrDefault(movie));
+            Assert.IsFalse(Entry.IsNullOrDefault(artist));
+            Assert.IsFalse(Entry.IsNullOrDefault(tv));
         }
 
         [Test]
