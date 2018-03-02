@@ -71,7 +71,7 @@ namespace Arachnee.InnerCore.ProviderBases
             Logger?.LogDebug($"Requesting {typeof(TEntry).Name} connections \"{string.Join(",", connectionTypes)}\" on \"{entryId}\"...");
             progress?.Report(0);
 
-            var entry = await GetEntryAsync(entryId, new Progress<double>(value => progress?.Report(value / SeedProgress)), cancellationToken);
+            var entry = await GetEntryAsync(entryId, new Progress<double>(value => progress?.Report(value * SeedProgress)), cancellationToken);
             if (Entry.IsNullOrDefault(entry))
             {
                 Logger?.LogDebug($"No connection returned for \"{entryId}\".");
@@ -79,9 +79,10 @@ namespace Arachnee.InnerCore.ProviderBases
                 return new List<TEntry>();
             }
             
-            var oppositeEntries = new List<Entry>();
+            var oppositeEntries = new Dictionary<string, Entry>();
             var validConnections = entry.Connections.Where(c => connectionTypes.Contains(c.Type)).ToList();
-            int progressCount = 0;
+            
+            int progressCount = -1;
             foreach (var connection in validConnections)
             {
                 if (cancellationToken.IsCancellationRequested)
@@ -92,7 +93,14 @@ namespace Arachnee.InnerCore.ProviderBases
 
                 progressCount++;
                 var count = progressCount;
-                var subProgress = new Progress<double>(value => progress?.Report(SeedProgress + count * (1 - SeedProgress) / validConnections.Count));
+                IProgress<double> subProgress = new Progress<double>(value => 
+                    progress?.Report(SeedProgress + count * (1- SeedProgress) / validConnections.Count + value * (1 - SeedProgress) / validConnections.Count));
+
+                if (oppositeEntries.ContainsKey(connection.ConnectedId))
+                {
+                    subProgress.Report(1);
+                    continue;
+                }
 
                 var oppositeEntry = await GetEntryAsync(connection.ConnectedId, subProgress, cancellationToken);
 
@@ -102,10 +110,10 @@ namespace Arachnee.InnerCore.ProviderBases
                 }
 
                 Logger?.LogDebug($"Connected to {entry}: {oppositeEntry}.");
-                oppositeEntries.Add(oppositeEntry);
+                oppositeEntries.Add(oppositeEntry.Id, oppositeEntry);
             }
 
-            return oppositeEntries.OfType<TEntry>().ToList();
+            return oppositeEntries.Values.OfType<TEntry>().ToList();
         }
 
         protected abstract Task<Entry> LoadEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken);
