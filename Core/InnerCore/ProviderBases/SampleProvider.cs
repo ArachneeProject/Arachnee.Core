@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Arachnee.InnerCore.ProviderBases
 {
-    public class SampleProvider : CacheEntryProvider
+    public class SampleProvider : EntryProvider
     {
         public List<Entry> Entries { get; }
 

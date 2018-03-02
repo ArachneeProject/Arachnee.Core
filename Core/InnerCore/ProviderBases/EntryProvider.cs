@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Arachnee.InnerCore.ProviderBases
 {
-    public abstract class CacheEntryProvider : IEntryProvider
+    public abstract class EntryProvider : IEntryProvider
     {
         private const double SeedProgress = 0.1;
 
