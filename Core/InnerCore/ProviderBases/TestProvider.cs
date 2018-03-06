@@ -15,7 +15,7 @@ namespace Arachnee.InnerCore.ProviderBases
         public const string ArnoldSchwarzeneggerId = "Artist-1100";
         public const string JamesCameronId = "Artist-2710";
         
-        public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, IProgress<double> progress, CancellationToken cancellationToken)
+        public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null)
         {
             return Task.Run(() =>
             {

@@ -38,7 +38,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetEntryAsync_ValidId_ReturnsValidEntry()
         {
-            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateProgress(), CreateCancellationToken()).Result;
+            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateCancellationToken(), CreateProgress()).Result;
             var movie = entry as Movie;
 
             Assert.IsFalse(Entry.IsNullOrDefault(entry));
@@ -50,7 +50,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetEntryAsync_EmptyId_ReturnsDefaultEntry()
         {
-            var entry = _provider.GetEntryAsync(string.Empty, CreateProgress(), CreateCancellationToken()).Result;
+            var entry = _provider.GetEntryAsync(string.Empty, CreateCancellationToken(), CreateProgress()).Result;
 
             Assert.IsTrue(Entry.IsNullOrDefault(entry));
         }
@@ -58,7 +58,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetEntryAsync_NullId_ReturnsDefaultEntry()
         {
-            var entry = _provider.GetEntryAsync(null, CreateProgress(), CreateCancellationToken()).Result;
+            var entry = _provider.GetEntryAsync(null, CreateCancellationToken(), CreateProgress()).Result;
 
             Assert.IsTrue(Entry.IsNullOrDefault(entry));
         }
@@ -66,7 +66,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetEntryAsync_MultiThread_ReturnCachedEntry()
         {
-            _provider.Logger = null; // TODO: disable logger [ https://github.com/SuperValou/Arachnee.Core/projects/2#card-7942481 ]
+            _provider.Logger = null;
 
             var dictionary = new ConcurrentDictionary<Entry, int>();
             var random = new Random();
@@ -74,7 +74,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
             {
                 int delay = random.Next(100);
                 Task.Delay(delay);
-                dictionary.TryAdd(_provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, new Progress<double>(), CreateCancellationToken()).Result, delay);
+                dictionary.TryAdd(_provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateCancellationToken()).Result, delay);
             });
             
             Assert.AreEqual(1, dictionary.Count);
@@ -85,7 +85,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test, Description("A null IProgress shouldn't have any impact on the function.")]
         public void GetEntryAsync_ValidIdAndNullProgress_ReturnsValidEntry()
         {
-            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, null, CreateCancellationToken()).Result;
+            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateCancellationToken(), progress:null).Result;
 
             Assert.IsFalse(Entry.IsNullOrDefault(entry));
             Assert.AreEqual(TestProvider.Terminator2JudgmentDayId, entry.Id);
@@ -94,7 +94,23 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetConnectedEntriesAsync_ValidId_ReturnsConnectedEntries()
         {
-            var connectedEntries = _provider.GetConnectedEntriesAsync<Entry>(TestProvider.Terminator2JudgmentDayId, Connection.AllTypes(), CreateProgress(), CreateCancellationToken()).Result.ToList();
+            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateCancellationToken()).Result;
+            var connectedEntries = _provider.GetConnectedEntriesAsync<Entry>(entry, CreateCancellationToken(), CreateProgress()).Result.ToList();
+
+            Assert.AreEqual(2, connectedEntries.Count);
+            Assert.AreEqual(TestProvider.ArnoldSchwarzeneggerId, connectedEntries[1].Id);
+        }
+
+        [Test]
+        public void GetConnectedEntriesAsync_ValidIdAndAction_ReturnsConnectedEntries()
+        {
+            var entry = _provider.GetEntryAsync(TestProvider.Terminator2JudgmentDayId, CreateCancellationToken()).Result;
+            var connectedEntries = _provider.GetConnectedEntriesAsync<Entry>(entry, CreateCancellationToken(),
+                CreateProgress(), onConnectedEntryFound:
+                foundEntry =>
+                {
+                    _logger.LogInfo($"Found {foundEntry}!");
+                }).Result.ToList();
 
             Assert.AreEqual(2, connectedEntries.Count);
             Assert.AreEqual(TestProvider.ArnoldSchwarzeneggerId, connectedEntries[1].Id);
@@ -103,7 +119,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetSearchResultsAsync_ValidQuery_ReturnsValidResult()
         {
-            var searchResults = _provider.GetSearchResultsAsync(MovieTitle, CreateProgress(), CreateCancellationToken()).Result;
+            var searchResults = _provider.GetSearchResultsAsync(MovieTitle, CreateCancellationToken(), CreateProgress()).Result;
 
             Assert.AreEqual(1, searchResults.Count);
             Assert.AreEqual(TestProvider.Terminator2JudgmentDayId, searchResults.First().EntryId);
@@ -113,7 +129,7 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         [Test]
         public void GetSearchResultsAsync_ValidQueryAndNullProgress_ReturnsValidResult()
         {
-            var searchResults = _provider.GetSearchResultsAsync(MovieTitle, null, CreateCancellationToken()).Result;
+            var searchResults = _provider.GetSearchResultsAsync(MovieTitle, CreateCancellationToken()).Result;
 
             Assert.AreEqual(1, searchResults.Count);
             Assert.AreEqual(TestProvider.Terminator2JudgmentDayId, searchResults.First().EntryId);

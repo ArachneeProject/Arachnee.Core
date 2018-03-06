@@ -18,11 +18,11 @@ namespace Arachnee.InnerCore.ProviderBases
         /// Runs a search to get a list of entries corresponding to the given query. 
         /// First item in the list is the best result.
         /// </summary>
-        Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, IProgress<double> progress, CancellationToken cancellationToken);
+        Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress);
 
         /// <summary>
         /// Gets the entry corresponding to the given id.
         /// </summary>
-        Task<Entry> GetEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken);
+        Task<Entry> GetEntryAsync(string entryId, CancellationToken cancellationToken, IProgress<double> progress);
     }
 }
