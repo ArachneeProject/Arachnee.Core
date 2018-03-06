@@ -5,12 +5,12 @@ namespace SharpmakeGeneration
 {
     // Represents the project that will be generated.
     [Generate]
-    public class ArachneeInnerCore_TestsProject : CSharpProject
+    public class EntryProviders_TestsProject : CSharpProject
     {
-        public ArachneeInnerCore_TestsProject()
+        public EntryProviders_TestsProject()
         {
-            Name = "Arachnee.InnerCore.Tests";
-            SourceRootPath = "[project.SharpmakeCsPath]/../Tests/InnerCore.Tests";
+            Name = "Arachnee.EntryProviders.Tests";
+            SourceRootPath = "[project.SharpmakeCsPath]/../Tests/EntryProviders.Tests";
             RootPath = "[project.SharpmakeCsPath]/../";
             AddTargets(GeneratedSolution.Target);
         }
@@ -20,14 +20,14 @@ namespace SharpmakeGeneration
         {
             conf.Output = Configuration.OutputType.DotNetClassLibrary;
             
-            conf.ProjectFileName = @"Arachnee.InnerCore.Tests";
-            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Tests/InnerCore.Tests";
+            conf.ProjectFileName = @"[project.Name]";
+            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Tests/EntryProviders.Tests";
             conf.TargetPath = RootPath + @"\Outputs.Tests\[project.Name]";
             
             conf.ReferencesByName.Add("System");
 			conf.ReferencesByNuGetPackage.Add("NUnit", "3.9.0");
 			
-			conf.AddPublicDependency<ArachneeInnerCore_Project>(target);
+			conf.AddPublicDependency<EntryProviders_Project>(target);
         }
     }	
 }

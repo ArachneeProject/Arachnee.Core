@@ -5,12 +5,12 @@ namespace SharpmakeGeneration
 {
     // Represents the project that will be generated.
     [Generate]
-    public class ArachneeInnerCore_Project : CSharpProject
+    public class EntryProviders_Project : CSharpProject
     {
-        public ArachneeInnerCore_Project()
+        public EntryProviders_Project()
         {
-            Name = "Arachnee.InnerCore";
-            SourceRootPath = "[project.SharpmakeCsPath]/../Core/InnerCore";
+            Name = "Arachnee.EntryProviders";
+            SourceRootPath = "[project.SharpmakeCsPath]/../Core/EntryProviders";
             RootPath = "[project.SharpmakeCsPath]/../";
             AddTargets(GeneratedSolution.Target);
         }
@@ -20,14 +20,14 @@ namespace SharpmakeGeneration
         {
             conf.Output = Configuration.OutputType.DotNetClassLibrary;
             
-            conf.ProjectFileName = @"Arachnee.InnerCore";
-            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/InnerCore";
+            conf.ProjectFileName = @"[project.Name]";
+            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/EntryProviders";
             conf.TargetPath = RootPath + @"\Outputs\[project.Name]";
             
             conf.ReferencesByName.Add("System");
+			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "11.0.1");
 
-            // conf.ReferencesByNuGetPackage.Add("NUnit", "3.9.0");
-            // conf.AddPrivateDependency<InteropLibrary>(target);
+			conf.AddPublicDependency<InnerCore_Project>(target);            
         }
     }	
 }
