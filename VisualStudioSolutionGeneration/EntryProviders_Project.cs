@@ -26,6 +26,7 @@ namespace SharpmakeGeneration
             
             conf.ReferencesByName.Add("System");
 			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "11.0.1");
+			conf.ReferencesByNuGetPackage.Add("RestSharp", "105.2.3");
 
 			conf.AddPublicDependency<InnerCore_Project>(target);            
         }

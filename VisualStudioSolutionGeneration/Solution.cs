@@ -58,7 +58,7 @@ namespace SharpmakeGeneration
                     Optimization.Debug | Optimization.Release,
 
                     // .NET Framework
-                    framework: DotNetFramework.v4_5
+                    framework: DotNetFramework.v4_5_2
                 );
             }
         }
