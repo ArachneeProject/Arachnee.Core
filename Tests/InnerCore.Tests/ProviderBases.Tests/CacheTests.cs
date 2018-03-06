@@ -1,4 +1,4 @@
-﻿using Arachnee.InnerCore.ProviderBases;
+﻿using Arachnee.InnerCore.EntryProviderBases;
 using NUnit.Framework;
 
 namespace Arachnee.InnerCore.Tests.ProviderBases.Tests

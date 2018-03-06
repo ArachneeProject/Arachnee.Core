@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arachnee.InnerCore.ProviderBases
+namespace Arachnee.InnerCore.EntryProviderBases
 {
     /// <summary>
     /// Can only provide 3 different entries. Should only be used for tests.

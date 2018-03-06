@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Arachnee.InnerCore.ProviderBases
+namespace Arachnee.InnerCore.EntryProviderBases
 {
     public class Cache<TKey,TValue>
     {

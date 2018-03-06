@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arachnee.InnerCore.ProviderBases
+namespace Arachnee.InnerCore.EntryProviderBases
 {
     public abstract class EntryProvider : IEntryProvider
     {

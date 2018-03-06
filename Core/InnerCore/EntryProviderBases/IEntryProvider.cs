@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arachnee.InnerCore.ProviderBases
+namespace Arachnee.InnerCore.EntryProviderBases
 {
     public interface IEntryProvider
     {

@@ -1,6 +1,6 @@
-﻿using Arachnee.InnerCore.LoggerBases;
+﻿using Arachnee.InnerCore.EntryProviderBases;
+using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
-using Arachnee.InnerCore.ProviderBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Concurrent;
