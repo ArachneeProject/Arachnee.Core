@@ -12,6 +12,8 @@ namespace Arachnee.InnerCore.ProviderBases
     {
         private const double SeedProgress = 0.1;
 
+        private object _lock = new object();
+
         protected readonly Cache<string, Entry> CachedEntries = new Cache<string, Entry>();
 
         public IEntryProvider FallbackProvider { get; set; }
@@ -55,7 +57,7 @@ namespace Arachnee.InnerCore.ProviderBases
                 return DefaultEntry.Instance;
             }
             
-            CachedEntries.AddOrUpdate(entryId, entry);
+            entry = CachedEntries.GetOrAdd(entryId, entry);
 
             Logger?.LogDebug($"Entry \"{entryId}\" found: {entry}.");
             progress?.Report(1);

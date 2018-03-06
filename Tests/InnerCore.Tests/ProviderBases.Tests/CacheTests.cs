@@ -16,15 +16,14 @@ namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
         }
 
         [Test]
-        public void TryAdd_AddElementTwice_ReturnsLastAdded()
+        public void GetOrAdd_AddElementTwice_ReturnsFirstAdded()
         {
             var cache = new Cache<int, string>();
-            cache.AddOrUpdate(0, "zero");
-            cache.AddOrUpdate(0, "ZERO");
-
-            string value;
-            Assert.IsTrue(cache.TryGetValue(0, out value));
-            Assert.AreEqual("ZERO", value);
+            var firstValue = cache.GetOrAdd(0, "zero");
+            var secondValue = cache.GetOrAdd(0, "ZERO");
+            
+            Assert.AreEqual("zero", firstValue);
+            Assert.AreEqual("zero", secondValue);
         }
     }
 }
