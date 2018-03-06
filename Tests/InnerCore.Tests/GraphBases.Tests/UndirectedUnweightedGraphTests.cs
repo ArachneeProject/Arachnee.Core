@@ -32,7 +32,7 @@ namespace Arachnee.InnerCore.Tests.GraphBases.Tests
         }
 
         [Test]
-        public void GetChildren_VertexExist_ReturnsChildren()
+        public void GetSuccessors_VertexExist_ReturnsChildren()
         {
             var graph = new UndirectedUnweightedGraph<int>();
             graph.AddVerticesAndEdgeRange(new List<Tuple<int, int>>
@@ -41,7 +41,7 @@ namespace Arachnee.InnerCore.Tests.GraphBases.Tests
                 new Tuple<int, int>(1, 3)
             });
 
-            var res = graph.GetChildren(1);
+            var res = graph.GetSuccessors(1);
 
             Assert.AreEqual(2, res.Count);
             Assert.IsTrue(res.Contains(2));
@@ -100,58 +100,5 @@ namespace Arachnee.InnerCore.Tests.GraphBases.Tests
         }
 
 
-        [Test]
-        public void GetShortestPath_ShortestPathExist_CorrectPath()
-        {
-            var graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVerticesAndEdgeRange(new List<Tuple<int, int>>
-            {
-                new Tuple<int, int>(1, 2),
-                new Tuple<int, int>(2, 3),
-                new Tuple<int, int>(3, 4)
-            });
-
-            var res = graph.GetShortestPath(1, 4);
-
-            Assert.AreEqual(3, res.Count);
-            Assert.AreEqual(2, res[0]);
-            Assert.AreEqual(3, res[1]);
-            Assert.AreEqual(4, res[2]);
-        }
-
-        [Test]
-        public void GetShortestPath_ShortestPathBetweenOneSingleVertex_EmptyPath()
-        {
-            var graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(0);
-
-            var res = graph.GetShortestPath(0, 0);
-
-            Assert.AreEqual(0, res.Count);
-        }
-
-        [Test]
-        public void GetShortestPath_ShortestPathDoesntExist_EmptyPath()
-        {
-            var graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(0);
-            graph.AddVertex(1);
-
-            var res = graph.GetShortestPath(0, 1);
-
-            Assert.AreEqual(0, res.Count);
-        }
-
-        [Test]
-        public void GetShortestPath_VerticesDontExist_EmptyPath()
-        {
-            var graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(0);
-            graph.AddVertex(1);
-
-            var res = graph.GetShortestPath(2, 4);
-
-            Assert.AreEqual(0, res.Count);
-        }
     }
 }

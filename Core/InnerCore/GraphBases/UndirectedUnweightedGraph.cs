@@ -1,38 +1,45 @@
-﻿using Arachnee.InnerCore.LoggerBases;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Arachnee.InnerCore.GraphBases
 {
-    public class UndirectedUnweightedGraph<T> : IGraph<T>
+    public class UndirectedUnweightedGraph<TVertex>
     {
-        private readonly Dictionary<T, HashSet<T>> _adjacencyCollection = new Dictionary<T, HashSet<T>>();
-
-        public int VertexCount => _adjacencyCollection.Keys.Count;
-        public int EdgeCount => _adjacencyCollection.Values.Sum(adjacencyCollectionValue => adjacencyCollectionValue.Count) / 2;
-        public IEnumerable<T> Vertices => _adjacencyCollection.Keys;
+        private readonly Dictionary<TVertex, HashSet<TVertex>> _successors = new Dictionary<TVertex, HashSet<TVertex>>();
         
-        public ILogger Logger { get; set; }
+        public int VertexCount => _successors.Keys.Count;
+        public int EdgeCount => _successors.Values.Sum(adjacencyCollectionValue => adjacencyCollectionValue.Count) / 2;
 
-        public virtual bool AddVertex(T vertex)
+        public IEnumerable<TVertex> Vertices => _successors.Keys;
+
+        /// <summary>
+        /// Add the given vertex to the graph.
+        /// </summary>
+        public virtual bool AddVertex(TVertex vertex)
         {
-            var alreadyPresent = _adjacencyCollection.ContainsKey(vertex);
+            var alreadyPresent = _successors.ContainsKey(vertex);
             if (alreadyPresent)
             {
                 return false;
             }
 
-            _adjacencyCollection[vertex] = new HashSet<T>();
+            _successors[vertex] = new HashSet<TVertex>();
             return true;
         }
 
-        public virtual bool ContainsVertex(T vertex)
+        /// <summary>
+        /// Returns true if the graph contains the given vertex, false otherwise.
+        /// </summary>
+        public virtual bool ContainsVertex(TVertex vertex)
         {
-            return _adjacencyCollection.Keys.Contains(vertex);
+            return _successors.Keys.Contains(vertex);
         }
 
-        public virtual bool AddVerticesAndEdgeRange(ICollection<Tuple<T, T>> edges)
+        /// <summary>
+        /// Add all the given vertices and edges (even if they don't exist)
+        /// </summary>
+        public virtual bool AddVerticesAndEdgeRange(ICollection<Tuple<TVertex, TVertex>> edges)
         {
             bool added = true;
 
@@ -43,81 +50,43 @@ namespace Arachnee.InnerCore.GraphBases
 
                 if (source.Equals(target))
                 {
-                    Logger?.LogError($"Self edge on \"{source}\" is ignored.");
+                    // ignore self edge
                     added = false;
                     continue;
                 }
 
-                if (!_adjacencyCollection.ContainsKey(source))
+                if (!_successors.ContainsKey(source))
                 {
-                    _adjacencyCollection[source] = new HashSet<T>();
+                    _successors[source] = new HashSet<TVertex>();
                 }
 
-                if (!_adjacencyCollection.ContainsKey(target))
+                if (!_successors.ContainsKey(target))
                 {
-                    _adjacencyCollection[target] = new HashSet<T>();
+                    _successors[target] = new HashSet<TVertex>();
                 }
 
-                added &= _adjacencyCollection[source].Add(target);
-                added &= _adjacencyCollection[target].Add(source);
+                added = added && _successors[source].Add(target);
+                added = added && _successors[target].Add(source);
             }
 
             return added;
         }
 
         /// <summary>
-        /// Returns a collection of <see cref="T"/> representing the path from the given source to the given target.<br/> 
-        /// The collection doesn't contain the source, but include the target as the last <see cref="T"/> of the collection.<br/> 
-        /// Thus, an empty collection means no path exists between the source and the target.
+        /// Returns true if the graph contains an edge between the two given vertices.
         /// </summary>
-        /// <param name="sourceVertex"></param>
-        /// <param name="targetVertex"></param>
-        /// <returns></returns>
-        public virtual List<T> GetShortestPath(T sourceVertex, T targetVertex)
+        public virtual bool ContainsEdge(TVertex sourceVertex, TVertex targetVertex)
         {
-            if (sourceVertex == null)
-            {
-                throw new ArgumentNullException(nameof(sourceVertex));
-            }
-            if (targetVertex == null)
-            {
-                throw new ArgumentNullException(nameof(targetVertex));
-            }
-
-            if (!this.ContainsVertex(sourceVertex))
-            {
-                Logger?.LogError($"\"{sourceVertex}\" doesn't exist.");
-                return new List<T>();
-            }
-
-            if (!this.ContainsVertex(targetVertex))
-            {
-                Logger?.LogError($"\"{targetVertex}\" doesn't exist.");
-                return new List<T>();
-            }
-
-            if (sourceVertex.Equals(targetVertex))
-            {
-                Logger?.LogWarning($"Asking for shortest path between a vertex and itself \"{sourceVertex}\" returns an empty path.");
-                return new List<T>();
-            }
-
-            var algo = new GraphAlgorithms<T>();
-            var queryFunc = algo.ComputeShortestPathAndGetQueryFunc(this, sourceVertex);
-            var result = queryFunc.Invoke(targetVertex).ToList();
-
-            return result;
-        }
-        
-        public virtual bool ContainsEdge(T sourceVertex, T targetVertex)
-        {
-            return _adjacencyCollection.ContainsKey(sourceVertex)
-                   && _adjacencyCollection[sourceVertex].Contains(targetVertex)
-                   && _adjacencyCollection.ContainsKey(targetVertex)
-                   && _adjacencyCollection[targetVertex].Contains(sourceVertex);
+            return _successors.ContainsKey(sourceVertex)
+                   && _successors[sourceVertex].Contains(targetVertex)
+                   && _successors.ContainsKey(targetVertex)
+                   && _successors[targetVertex].Contains(sourceVertex);
         }
 
-        public HashSet<T> GetChildren(T vertex)
+        /// <summary>
+        /// Returns the successors of the given vertex.
+        /// </summary>
+        public ICollection<TVertex> GetSuccessors(TVertex vertex)
         {
             if (vertex == null)
             {
@@ -126,11 +95,25 @@ namespace Arachnee.InnerCore.GraphBases
 
             if (ContainsVertex(vertex))
             {
-                return _adjacencyCollection[vertex];
+                return _successors[vertex];
             }
 
-            Logger?.LogError($"\"{vertex}\" doesn't exist.");
-            return new HashSet<T>();
+            return new HashSet<TVertex>();
+        }
+        
+        public ICollection<TVertex> GetPredecessors(TVertex vertex)
+        {
+            if (vertex == null)
+            {
+                throw new ArgumentNullException(nameof(vertex));
+            }
+
+            if (ContainsVertex(vertex))
+            {
+                return _successors[vertex];
+            }
+
+            return new HashSet<TVertex>();
         }
     }
 }
