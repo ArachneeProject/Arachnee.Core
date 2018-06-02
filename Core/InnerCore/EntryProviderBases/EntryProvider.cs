@@ -13,8 +13,13 @@ namespace Arachnee.InnerCore.EntryProviderBases
         protected readonly Cache<Id, Entry> CachedEntries = new Cache<Id, Entry>();
 
         public IEntryProvider FallbackProvider { get; set; }
-
+        
         public ILogger Logger { get; set; }
+
+        protected EntryProvider(ILogger logger)
+        {
+            Logger = logger;
+        }
 
         public abstract Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null);
         

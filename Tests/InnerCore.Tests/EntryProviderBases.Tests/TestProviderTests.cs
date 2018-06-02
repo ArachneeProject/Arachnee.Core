@@ -32,7 +32,7 @@ namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
         [SetUp]
         public void SetUp()
         {
-            _provider = new TestProvider { Logger = _logger };
+            _provider = new TestProvider(_logger);
         }
 
         [Test]

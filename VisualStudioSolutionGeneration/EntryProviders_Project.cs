@@ -27,7 +27,7 @@ namespace SharpmakeGeneration
             
             conf.ReferencesByName.Add("System");
 			conf.ReferencesByNuGetPackage.Add("TMDbLib", "1.2.0-alpha");
-			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "11.0.1");
+			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "9.0.1");
 			conf.ReferencesByNuGetPackage.Add("RestSharp", "105.2.3");
 
 			conf.AddPublicDependency<InnerCore_Project>(target);            
@@ -56,7 +56,7 @@ namespace SharpmakeGeneration
             conf.TargetPath = RootPath + @"\Outputs\[project.Name]";
             
             conf.ReferencesByName.Add("System");
-			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "11.0.1");
+			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "9.0.1");
 			conf.ReferencesByNuGetPackage.Add("RestSharp", "105.2.3");
 
 			conf.AddPublicDependency<InnerCore_Project>(target);            

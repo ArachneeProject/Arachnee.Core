@@ -1,4 +1,5 @@
-﻿using Arachnee.InnerCore.Models;
+﻿using Arachnee.InnerCore.LoggerBases;
+using Arachnee.InnerCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +15,11 @@ namespace Arachnee.InnerCore.EntryProviderBases
         public static Id Terminator2JudgmentDayId = Id.FromMovieNumber(280);
         public static Id ArnoldSchwarzeneggerId = Id.FromArtistNumber(1100);
         public static Id JamesCameronId = Id.FromArtistNumber(2710);
-        
+
+        public TestProvider(ILogger logger) : base(logger)
+        {
+        }
+
         public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null)
         {
             return Task.Run(() =>

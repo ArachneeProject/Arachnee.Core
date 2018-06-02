@@ -12,7 +12,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
         /// <summary>
         /// Logger of the provider so it is able to log informations and errors.
         /// </summary>
-        ILogger Logger { set; }
+        ILogger Logger { get; set; }
         
         /// <summary>
         /// Runs a search to get a list of entries corresponding to the given query. 
