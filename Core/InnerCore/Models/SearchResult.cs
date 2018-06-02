@@ -9,7 +9,5 @@
         public string Date { get; set; }
 
         public string ImagePath { get; set; }
-
-        public SearchResultType SearchResultType { get; set; }
     }
 }

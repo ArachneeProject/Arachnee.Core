@@ -123,7 +123,6 @@ namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
 
             Assert.AreEqual(1, searchResults.Count);
             Assert.AreEqual(TestProvider.Terminator2JudgmentDayId, searchResults.First().EntryId);
-            Assert.AreEqual(SearchResultType.Movie, searchResults.First().SearchResultType);
         }
 
         [Test]
@@ -133,7 +132,6 @@ namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
 
             Assert.AreEqual(1, searchResults.Count);
             Assert.AreEqual(TestProvider.Terminator2JudgmentDayId, searchResults.First().EntryId);
-            Assert.AreEqual(SearchResultType.Movie, searchResults.First().SearchResultType);
         }
     }
 }

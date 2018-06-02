@@ -16,9 +16,9 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
         {
             var id = Id.FromMovieNumber(IdNumber);
 
-            Assert.AreEqual(id.TypeName, nameof(Movie));
-            Assert.AreEqual(id.Number, IdNumber);
-            Assert.AreEqual(id.FullIdentifier, "Movie-280");
+            Assert.AreEqual(IdType.Movie, id.Type);
+            Assert.AreEqual(IdNumber, id.Number);
+            Assert.AreEqual("Movie-280", id.FullIdentifier);
         }
 
         [Test]
@@ -32,9 +32,9 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
         {
             var id = Id.FromArtistNumber(IdNumber);
 
-            Assert.AreEqual(id.TypeName, nameof(Artist));
-            Assert.AreEqual(id.Number, IdNumber);
-            Assert.AreEqual(id.FullIdentifier, "Artist-280");
+            Assert.AreEqual(IdType.Artist, id.Type);
+            Assert.AreEqual(IdNumber, id.Number);
+            Assert.AreEqual("Artist-280", id.FullIdentifier);
         }
 
         [Test]
@@ -48,9 +48,9 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
         {
             var id = Id.FromTvSeriesNumber(IdNumber);
 
-            Assert.AreEqual(id.TypeName, nameof(TvSeries));
-            Assert.AreEqual(id.Number, IdNumber);
-            Assert.AreEqual(id.FullIdentifier, "TvSeries-280");
+            Assert.AreEqual(IdType.TvSeries, id.Type);
+            Assert.AreEqual(IdNumber, id.Number);
+            Assert.AreEqual("TvSeries-280", id.FullIdentifier);
         }
 
         [Test]
@@ -230,9 +230,9 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
         [Test]
         public void Statics_CorrectValues()
         {
-            Assert.AreEqual("DefaultEntry", Id.Default.TypeName);
+            Assert.AreEqual(IdType.Default, Id.Default.Type);
             Assert.AreEqual(0, Id.Default.Number);
-            Assert.AreEqual("DefaultEntry-0", Id.Default.FullIdentifier);
+            Assert.AreEqual("Default-0", Id.Default.FullIdentifier);
 
             Assert.AreEqual('-', Id.Separator);
         }

@@ -6,22 +6,22 @@ namespace Arachnee.InnerCore.Models
     {
         public const char Separator = '-';
         
-        public static Id Default { get; } = new Id(nameof(DefaultEntry), 0);
+        public static Id Default { get; } = new Id(IdType.Default, 0);
         
         public string FullIdentifier { get; }
         public int Number { get; }
-        public string TypeName { get; }
+        public IdType Type { get; }
         
-        private Id(string typeName, int number)
+        private Id(IdType type, int number)
         {
             if (number < 0)
             {
                 throw new ArgumentException("Number must be positive.", nameof(number));
             }
             
-            TypeName = typeName;
+            Type = type;
             Number = number;
-            FullIdentifier = typeName + Separator + number;
+            FullIdentifier = type.ToString() + Separator + number;
         }
 
         public static bool IsNullOrDefault(Id id)
@@ -31,17 +31,17 @@ namespace Arachnee.InnerCore.Models
 
         public static Id FromMovieNumber(int movieNumber)
         {
-            return new Id(nameof(Movie), movieNumber);
+            return new Id(IdType.Movie, movieNumber);
         }
 
         public static Id FromArtistNumber(int artistNumber)
         {
-            return new Id(nameof(Artist), artistNumber);
+            return new Id(IdType.Artist, artistNumber);
         }
 
         public static Id FromTvSeriesNumber(int tvSeriesNumber)
         {
-            return new Id(nameof(TvSeries), tvSeriesNumber);
+            return new Id(IdType.TvSeries, tvSeriesNumber);
         }
 
         public static bool TryParse(string identifier, out Id id)
@@ -64,10 +64,8 @@ namespace Arachnee.InnerCore.Models
             }
 
             var typeChunck = split[0];
-
-            if (typeChunck != nameof(Movie) &&
-                typeChunck != nameof(Artist) &&
-                typeChunck != nameof(TvSeries))
+            IdType type;
+            if (!Enum.TryParse(typeChunck, false, out type))
             {
                 return false;
             }
@@ -79,7 +77,7 @@ namespace Arachnee.InnerCore.Models
                 return false;
             }
 
-            id = new Id(typeChunck, number);
+            id = new Id(type, number);
             return true;
         }
 

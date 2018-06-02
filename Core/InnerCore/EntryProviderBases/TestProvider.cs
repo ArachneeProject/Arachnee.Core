@@ -27,8 +27,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
                     {
                         Date = "1984",
                         EntryId = Terminator2JudgmentDayId,
-                        ImagePath = string.Empty,
-                        SearchResultType = SearchResultType.Movie
+                        ImagePath = string.Empty
                     });
                 }
 
@@ -38,8 +37,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
                     {
                         Date = "1947",
                         EntryId = ArnoldSchwarzeneggerId,
-                        ImagePath = string.Empty,
-                        SearchResultType = SearchResultType.Person
+                        ImagePath = string.Empty
                     });
                 }
 
@@ -49,8 +47,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
                     {
                         Date = "1954",
                         EntryId = JamesCameronId,
-                        ImagePath = string.Empty,
-                        SearchResultType = SearchResultType.Person
+                        ImagePath = string.Empty
                     });
                 }
                 
