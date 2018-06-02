@@ -1,4 +1,4 @@
-﻿namespace Arachnee.EntryProviders.TmdbProvider.Tmdb
+﻿namespace Arachnee.TmdbProvider.Online
 {
     public class Constant
     {

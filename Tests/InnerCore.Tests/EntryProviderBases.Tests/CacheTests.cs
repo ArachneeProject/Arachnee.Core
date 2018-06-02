@@ -1,7 +1,7 @@
 ﻿using Arachnee.InnerCore.EntryProviderBases;
 using NUnit.Framework;
 
-namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
+namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
 {
     [TestFixture]
     public class CacheTests

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arachnee.InnerCore.Tests.ProviderBases.Tests
+namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
 {
     [TestFixture]
     public class TestProviderTests
