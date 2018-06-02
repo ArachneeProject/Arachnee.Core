@@ -5,12 +5,12 @@ namespace SharpmakeGeneration
 {
     // Represents the project that will be generated.
     [Generate]
-    public class EntryProviders_Project : CSharpProject
+    public class TmdbProvider_Project : CSharpProject
     {
-        public EntryProviders_Project()
+        public TmdbProvider_Project()
         {
-            Name = "Arachnee.EntryProviders";
-            SourceRootPath = "[project.SharpmakeCsPath]/../Core/EntryProviders";
+            Name = "Arachnee.TmdbProvider";
+            SourceRootPath = "[project.SharpmakeCsPath]/../Core/EntryProviders/TmdbProvider";
             RootPath = "[project.SharpmakeCsPath]/../";
             AddTargets(GeneratedSolution.Target);
         }
@@ -21,7 +21,37 @@ namespace SharpmakeGeneration
             conf.Output = Configuration.OutputType.DotNetClassLibrary;
             
             conf.ProjectFileName = @"[project.Name]";
-            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/EntryProviders";
+			conf.SolutionFolder = "Core/EntryProviders";
+            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/EntryProviders/TmdbProvider";
+            conf.TargetPath = RootPath + @"\Outputs\[project.Name]";
+            
+            conf.ReferencesByName.Add("System");
+			conf.ReferencesByNuGetPackage.Add("Newtonsoft.Json", "11.0.1");
+			conf.ReferencesByNuGetPackage.Add("RestSharp", "105.2.3");
+
+			conf.AddPublicDependency<InnerCore_Project>(target);            
+        }
+    }
+
+	[Generate]
+    public class LocalProvider_Project : CSharpProject
+    {
+        public LocalProvider_Project()
+        {
+            Name = "Arachnee.LocalProvider";
+            SourceRootPath = "[project.SharpmakeCsPath]/../Core/EntryProviders/LocalProvider";
+            RootPath = "[project.SharpmakeCsPath]/../";
+            AddTargets(GeneratedSolution.Target);
+        }
+        
+        [Configure]
+        public void ConfigureAll(Project.Configuration conf, Target target)
+        {
+            conf.Output = Configuration.OutputType.DotNetClassLibrary;
+            
+            conf.ProjectFileName = @"[project.Name]";
+			conf.SolutionFolder = "Core/EntryProviders";
+            conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/EntryProviders/LocalProvider";
             conf.TargetPath = RootPath + @"\Outputs\[project.Name]";
             
             conf.ReferencesByName.Add("System");

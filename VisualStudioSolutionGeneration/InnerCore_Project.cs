@@ -10,7 +10,7 @@ namespace SharpmakeGeneration
         public InnerCore_Project()
         {
             Name = "Arachnee.InnerCore";
-            SourceRootPath = "[project.SharpmakeCsPath]/../Core/InnerCore";
+			SourceRootPath = "[project.SharpmakeCsPath]/../Core/InnerCore";
             RootPath = "[project.SharpmakeCsPath]/../";
             AddTargets(GeneratedSolution.Target);
         }
@@ -21,6 +21,7 @@ namespace SharpmakeGeneration
             conf.Output = Configuration.OutputType.DotNetClassLibrary;
             
             conf.ProjectFileName = @"Arachnee.InnerCore";
+			conf.SolutionFolder = "Core/InnerCore";
             conf.ProjectPath = @"[project.SharpmakeCsPath]/../Core/InnerCore";
             conf.TargetPath = RootPath + @"\Outputs\[project.Name]";
             

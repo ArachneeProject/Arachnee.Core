@@ -21,6 +21,7 @@ namespace SharpmakeGeneration
             conf.Output = Configuration.OutputType.DotNetClassLibrary;
             
             conf.ProjectFileName = @"Arachnee.InnerCore.Tests";
+			conf.SolutionFolder = "Tests/InnerCore.Tests";
             conf.ProjectPath = @"[project.SharpmakeCsPath]/../Tests/InnerCore.Tests";
             conf.TargetPath = RootPath + @"\Outputs.Tests\[project.Name]";
             
