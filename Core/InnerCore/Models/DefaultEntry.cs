@@ -4,7 +4,7 @@
     {
         public static DefaultEntry Instance = new DefaultEntry();
 
-        private DefaultEntry() : base(string.Empty)
+        private DefaultEntry() : base(Id.Default)
         {
             MainImagePath = string.Empty;
         }

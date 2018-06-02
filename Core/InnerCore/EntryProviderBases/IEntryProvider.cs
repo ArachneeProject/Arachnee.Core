@@ -23,6 +23,6 @@ namespace Arachnee.InnerCore.EntryProviderBases
         /// <summary>
         /// Gets the entry corresponding to the given id.
         /// </summary>
-        Task<Entry> GetEntryAsync(string entryId, CancellationToken cancellationToken, IProgress<double> progress);
+        Task<Entry> GetEntryAsync(Id entryId, CancellationToken cancellationToken, IProgress<double> progress);
     }
 }

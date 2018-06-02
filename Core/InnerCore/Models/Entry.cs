@@ -4,13 +4,13 @@ namespace Arachnee.InnerCore.Models
 {
     public abstract class Entry
     {
-        public string Id { get; }
+        public Id Id { get; }
 
         public string MainImagePath { get; set; }
 
         public List<Connection> Connections { get; set; } = new List<Connection>();
 
-        protected Entry(string id)
+        protected Entry(Id id)
         {
             Id = id;
         }
@@ -25,7 +25,7 @@ namespace Arachnee.InnerCore.Models
 
         public override string ToString()
         {
-            return Id;
+            return Id.ToString();
         }
     }
 }

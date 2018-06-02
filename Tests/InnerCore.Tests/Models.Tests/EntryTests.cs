@@ -6,9 +6,9 @@ namespace Arachnee.InnerCore.Tests.Models.Tests
     [TestFixture]
     public class EntryTests
     {
-        private readonly Movie _movie = new Movie("Movie-280") { Title = "Terminator 2: Judgment Day"};
-        private readonly Artist _artist = new Artist("Artist-1100");
-        private readonly TvSeries _tv = new TvSeries("TvSeries-433");
+        private readonly Movie _movie = new Movie(Id.FromMovieNumber(280)) { Title = "Terminator 2: Judgment Day"};
+        private readonly Artist _artist = new Artist(Id.FromArtistNumber(1100));
+        private readonly TvSeries _tv = new TvSeries(Id.FromTvSeriesNumber(433));
 
         [Test]
         public void IsNullOrDefault_ValidEntry_ReturnsFalse()

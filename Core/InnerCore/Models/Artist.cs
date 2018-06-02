@@ -28,7 +28,7 @@ namespace Arachnee.InnerCore.Models
             return $"{Name} ({Id})";
         }
 
-        public Artist(string id) : base(id)
+        public Artist(Id id) : base(id)
         {
         }
     }

@@ -6,7 +6,7 @@ namespace Arachnee.InnerCore.Models
 {
     public class Connection
     {
-        public string ConnectedId { get; set; }
+        public Id ConnectedId { get; set; }
 
         public ConnectionType Type { get; set; }
 

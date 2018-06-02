@@ -48,9 +48,9 @@ namespace Arachnee.InnerCore.Tests.EntryProviderBases.Tests
         }
 
         [Test]
-        public void GetEntryAsync_EmptyId_ReturnsDefaultEntry()
+        public void GetEntryAsync_DefaultId_ReturnsDefaultEntry()
         {
-            var entry = _provider.GetEntryAsync(string.Empty, CreateCancellationToken(), CreateProgress()).Result;
+            var entry = _provider.GetEntryAsync(Id.Default, CreateCancellationToken(), CreateProgress()).Result;
 
             Assert.IsTrue(Entry.IsNullOrDefault(entry));
         }

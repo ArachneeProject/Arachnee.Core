@@ -2,7 +2,7 @@
 {
     public class SearchResult
     {
-        public string EntryId { get; set; }
+        public Id EntryId { get; set; }
 
         public string Name { get; set; }
 

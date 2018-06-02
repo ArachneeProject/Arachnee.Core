@@ -10,7 +10,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
 {
     public abstract class EntryProvider : IEntryProvider
     {
-        protected readonly Cache<string, Entry> CachedEntries = new Cache<string, Entry>();
+        protected readonly Cache<Id, Entry> CachedEntries = new Cache<Id, Entry>();
 
         public IEntryProvider FallbackProvider { get; set; }
 
@@ -18,12 +18,12 @@ namespace Arachnee.InnerCore.EntryProviderBases
 
         public abstract Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null);
         
-        public async Task<Entry> GetEntryAsync(string entryId, CancellationToken cancellationToken, IProgress<double> progress = null)
+        public async Task<Entry> GetEntryAsync(Id entryId, CancellationToken cancellationToken, IProgress<double> progress = null)
         {
             Logger?.LogDebug($"Requesting entry \"{entryId}\"...");
             progress?.Report(0);
 
-            if (string.IsNullOrEmpty(entryId))
+            if (Id.IsNullOrDefault(entryId))
             {
                 Logger?.LogError("Unable to provide an entry because the given id was empty.");
                 progress?.Report(1);
@@ -82,7 +82,7 @@ namespace Arachnee.InnerCore.EntryProviderBases
                 return new List<TEntry>();
             }
             
-            var oppositeEntries = new Dictionary<string, TEntry>();
+            var oppositeEntries = new Dictionary<Id, TEntry>();
             var validConnections = entry.Connections.Where(c => connectionTypes.Contains(c.Type)).ToList();
             
             int progressCount = -1;
@@ -127,6 +127,6 @@ namespace Arachnee.InnerCore.EntryProviderBases
             return oppositeEntries.Values.ToList();
         }
 
-        protected abstract Task<Entry> LoadEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken);
+        protected abstract Task<Entry> LoadEntryAsync(Id entryId, IProgress<double> progress, CancellationToken cancellationToken);
     }
 }

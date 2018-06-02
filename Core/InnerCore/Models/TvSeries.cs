@@ -23,7 +23,7 @@ namespace Arachnee.InnerCore.Models
         public double VoteAverage { get; set; }
         public long VoteCount { get; set; }
 
-        public TvSeries(string id) : base(id)
+        public TvSeries(Id id) : base(id)
         {
         }
 

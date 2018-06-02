@@ -11,9 +11,9 @@ namespace Arachnee.InnerCore.EntryProviderBases
     /// </summary>
     public class TestProvider : EntryProvider
     {
-        public const string Terminator2JudgmentDayId = "Movie-280";
-        public const string ArnoldSchwarzeneggerId = "Artist-1100";
-        public const string JamesCameronId = "Artist-2710";
+        public static Id Terminator2JudgmentDayId = Id.FromMovieNumber(280);
+        public static Id ArnoldSchwarzeneggerId = Id.FromArtistNumber(1100);
+        public static Id JamesCameronId = Id.FromArtistNumber(2710);
         
         public override Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null)
         {
@@ -59,80 +59,81 @@ namespace Arachnee.InnerCore.EntryProviderBases
             }, cancellationToken);
         }
 
-        protected override Task<Entry> LoadEntryAsync(string entryId, IProgress<double> progress, CancellationToken cancellationToken)
+        protected override Task<Entry> LoadEntryAsync(Id entryId, IProgress<double> progress, CancellationToken cancellationToken)
         {
             return Task.Run(() =>
             {
                 Entry entry = DefaultEntry.Instance;
 
-                switch (entryId)
+                if (Id.IsNullOrDefault(entryId))
                 {
-                    case Terminator2JudgmentDayId:
-                        entry = new Movie("Movie-280")
-                        {
-                            Title = "Terminator 2: Judgment Day",
-                            Connections = new List<Connection>
-                            {
-                                // cameron
-                                new Connection
-                                {
-                                    ConnectedId = "Artist-2710",
-                                    Type = ConnectionType.Actor,
-                                    Label = "Some guy at the bar"
-                                },
-                                new Connection
-                                {
-                                    ConnectedId = "Artist-2710",
-                                    Type = ConnectionType.Director
-                                },
+                    return entry;
+                }
 
-                                // schwarzenegger
-                                new Connection
-                                {
-                                    ConnectedId = "Artist-1100",
-                                    Type = ConnectionType.Actor,
-                                    Label = "T-800"
-                                }
-                            }
-                        };
-                        break;
-                        
-                    case ArnoldSchwarzeneggerId:
-                        entry = new Artist(ArnoldSchwarzeneggerId)
+                if (entryId == Terminator2JudgmentDayId)
+                    entry = new Movie(Terminator2JudgmentDayId)
+                    {
+                        Title = "Terminator 2: Judgment Day",
+                        Connections = new List<Connection>
                         {
-                            Name = "Arnold Schwarzenegger",
-                            Connections = new List<Connection>
+                            // cameron
+                            new Connection
                             {
-                                new Connection
-                                {
-                                    ConnectedId = "Movie-280",
-                                    Type = ConnectionType.Actor,
-                                    Label = "T-800"
-                                }
-                            }
-                        };
-                        break;
+                                ConnectedId = JamesCameronId,
+                                Type = ConnectionType.Actor,
+                                Label = "Some guy at the bar"
+                            },
+                            new Connection
+                            {
+                                ConnectedId = JamesCameronId,
+                                Type = ConnectionType.Director
+                            },
 
-                    case JamesCameronId:
-                        entry = new Artist(JamesCameronId)
-                        {
-                            Name = "James Cameron",
-                            Connections = new List<Connection>
+                            // schwarzenegger
+                            new Connection
                             {
-                                new Connection
-                                {
-                                    ConnectedId = "Movie-280",
-                                    Type = ConnectionType.Actor,
-                                    Label = "Some guy at the bar"
-                                },
-                                new Connection
-                                {
-                                    ConnectedId = "Movie-280",
-                                    Type = ConnectionType.Director
-                                },
+                                ConnectedId = ArnoldSchwarzeneggerId,
+                                Type = ConnectionType.Actor,
+                                Label = "T-800"
                             }
-                        };
-                        break;
+                        }
+                    };
+                else if (entryId == ArnoldSchwarzeneggerId)
+                {
+                    entry = new Artist(ArnoldSchwarzeneggerId)
+                    {
+                        Name = "Arnold Schwarzenegger",
+                        Connections = new List<Connection>
+                        {
+                            new Connection
+                            {
+                                ConnectedId = Terminator2JudgmentDayId,
+                                Type = ConnectionType.Actor,
+                                Label = "T-800"
+                            }
+                        }
+                    };
+                }
+                else if (entryId == JamesCameronId)
+                {
+                    entry = new Artist(JamesCameronId)
+                    {
+                        Name = "James Cameron",
+                        Connections = new List<Connection>
+                        {
+                            new Connection
+                            {
+                                ConnectedId = Terminator2JudgmentDayId,
+                                Type = ConnectionType.Actor,
+                                Label = "Some guy at the bar"
+                            },
+                            new Connection
+                            {
+                                ConnectedId = Terminator2JudgmentDayId,
+                                Type = ConnectionType.Director
+                            },
+                        }
+                    };
                 }
 
                 return entry;

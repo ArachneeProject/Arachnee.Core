@@ -39,7 +39,7 @@ namespace Arachnee.InnerCore.Models
 
         public int VoteCount { get; set; }
 
-        public Movie(string id) : base(id)
+        public Movie(Id id) : base(id)
         {
         }
 
