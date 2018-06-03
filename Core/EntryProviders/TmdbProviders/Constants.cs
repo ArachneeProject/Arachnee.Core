@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Arachnee.TmdbProviders.Online
+namespace Arachnee.TmdbProviders
 {
     public static class Constants
     {
