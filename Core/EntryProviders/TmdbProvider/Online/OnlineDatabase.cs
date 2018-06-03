@@ -69,7 +69,7 @@ namespace Arachnee.TmdbProvider.Online
             switch (entryId.Type)
             {
                 case IdType.Movie:
-                    TmdbMovie tmdbMovie = null;
+                    TmdbMovie tmdbMovie;
                     try
                     {
                         tmdbMovie = await _client.GetMovieAsync(entryId.Number, (MovieMethods)4239, cancellationToken);
@@ -77,13 +77,14 @@ namespace Arachnee.TmdbProvider.Online
                     catch (Exception e)
                     {
                         Logger?.LogError($"An error occured while retrieving {nameof(Movie)} corresponding to {entryId}.", e);
+                        break;
                     }
 
                     entry = _tmdbConverter.ConvertMovie(tmdbMovie);
                     break;
 
                 case IdType.Artist:
-                    Person tmdbPerson = null;
+                    Person tmdbPerson;
                     try
                     {
                         tmdbPerson = await _client.GetPersonAsync(entryId.Number, (PersonMethods)31, cancellationToken);
@@ -91,13 +92,14 @@ namespace Arachnee.TmdbProvider.Online
                     catch (Exception e)
                     {
                         Logger?.LogError($"An error occured while retrieving {nameof(Artist)} corresponding to {entryId}.", e);
+                        break;
                     }
                         
                     entry = _tmdbConverter.ConvertPerson(tmdbPerson);
                     break;
 
                 case IdType.TvSeries:
-                    TvShow tmdbSeries = null;
+                    TvShow tmdbSeries;
                     try
                     {
                         tmdbSeries = await _client.GetTvShowAsync(entryId.Number, (TvShowMethods) 127, cancellationToken: cancellationToken);
@@ -105,6 +107,7 @@ namespace Arachnee.TmdbProvider.Online
                     catch (Exception e)
                     {
                         Logger?.LogError($"An error occured while retrieving artist corresponding to {entryId}.", e);
+                        break;
                     }
 
                     entry = _tmdbConverter.ConvertTvSeries(tmdbSeries);

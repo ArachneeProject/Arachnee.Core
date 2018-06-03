@@ -11,16 +11,12 @@ namespace Arachnee.InnerCore.Models
 
         public DateTime? Deathday { get; set; }
         
-        public string Homepage { get; set; }
-
         public string ImdbId { get; set; }
 
         public string Name { get; set; }
 
         public List<string> NickNames { get; set; }
-
-        public string PlaceOfBirth { get; set; }
-
+        
         public double Popularity { get; set; }
         
         public override string ToString()
