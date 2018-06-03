@@ -34,14 +34,12 @@ namespace SharpmakeGeneration
 
             // Add projects here
             conf.AddProject<InnerCore_Project>(target);
-            conf.AddProject<TmdbProvider_Project>(target);
-            conf.AddProject<LocalProvider_Project>(target);
-			
+            conf.AddProject<TmdbProviders_Project>(target);
+            			
 			// Tests projects
             conf.AddProject<InnerCore_TestsProject>(target);
-			conf.AddProject<TmdbProvider_TestsProject>(target);
-			conf.AddProject<LocalProvider_TestsProject>(target);
-			
+			conf.AddProject<TmdbProviders_TestsProject>(target);
+						
         }
 
         public static Target Target

@@ -14,7 +14,7 @@ using TMDbLib.Objects.TvShows;
 using Movie = Arachnee.InnerCore.Models.Movie;
 using TmdbMovie = TMDbLib.Objects.Movies.Movie;
 
-namespace Arachnee.TmdbProvider.Online
+namespace Arachnee.TmdbProviders.Online
 {
     public class OnlineDatabase : EntryProvider
     {

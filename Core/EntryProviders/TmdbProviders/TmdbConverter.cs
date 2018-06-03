@@ -6,7 +6,7 @@ using TMDbLib.Objects.Search;
 using TMDbLib.Objects.TvShows;
 using TmdbMovie = TMDbLib.Objects.Movies.Movie;
 
-namespace Arachnee.TmdbProvider
+namespace Arachnee.TmdbProviders
 {
     // TODO: Add Logger
     public class TmdbConverter

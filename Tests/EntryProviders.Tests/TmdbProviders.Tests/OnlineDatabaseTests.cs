@@ -1,12 +1,12 @@
 ﻿using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
-using Arachnee.TmdbProvider.Online;
+using Arachnee.TmdbProviders.Online;
 using NUnit.Framework;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Arachnee.TmdbProvider.Tests
+namespace Arachnee.TmdbProviders.Tests
 {
     [TestFixture]
     public class OnlineDatabaseTests
