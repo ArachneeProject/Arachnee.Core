@@ -9,7 +9,7 @@ namespace Arachnee.TmdbProviders
     {
         protected string ResourcesFolder { get; }
 
-        protected TmdbConverter TmdbConverter { get; } = new TmdbConverter();
+        protected TmdbConverter TmdbConverter { get; }
         
         protected TmdbDatabase(string resourcesFolder, ILogger logger) : base(logger)
         {
@@ -20,6 +20,7 @@ namespace Arachnee.TmdbProviders
 
             ResourcesFolder = resourcesFolder;
             Logger = logger;
+            TmdbConverter = new TmdbConverter(logger?.CreateSubLoggerFor(nameof(TmdbConverter)));
         }
     }
 }

@@ -5,54 +5,71 @@ namespace Arachnee.InnerCore.LoggerBases
 {
     public class ConsoleLogger : ILogger
     {
-        private static string GetUtcNow()
+        public string Name { get; }
+
+        public ConsoleLogger()
         {
-            return DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
+            Name = "main";
         }
 
-        public void LogTrace(object message)
+        private ConsoleLogger(string name)
         {
-            Console.WriteLine($"{GetUtcNow()} TRACE:{message}");
+            Name = name;
+        }
+
+        public ILogger CreateSubLoggerFor(string subLoggerName)
+        {
+            return new ConsoleLogger($"{Name}/{subLoggerName}");
         }
 
         public void LogDebug(object message)
         {
-            Console.WriteLine($"{GetUtcNow()} DEBUG:{message}");
-        }
-
-        public void LogInfo(object message)
-        {
-            Console.WriteLine($"{GetUtcNow()} INFO:{message}");
-        }
-
-        public void LogWarning(object message)
-        {
-            Console.WriteLine($"{GetUtcNow()} WARNING:{message}");
-        }
-
-        public void LogWarning(object message, Exception exception)
-        {
-            Console.WriteLine($"{GetUtcNow()} WARNING:{message} - Details:{exception}");
+            Console.WriteLine($"{GetUtcNow()} [{Name}] DEBUG: {message}");
         }
 
         public void LogError(object message)
         {
-            Console.WriteLine($"{GetUtcNow()} ERROR:{message}");
+            Console.WriteLine($"{GetUtcNow()} [{Name}] ERROR: {message}");
         }
 
         public void LogError(object message, Exception exception)
         {
-            Console.WriteLine($"{GetUtcNow()} ERROR:{message} - Details:{exception}");
+            Console.WriteLine($"{GetUtcNow()} [{Name}] ERROR: {message} - Details:{exception}");
         }
 
         public void LogFatal(object message)
         {
-            Console.WriteLine($"{GetUtcNow()} FATAL:{message}");
+            Console.WriteLine($"{GetUtcNow()} [{Name}] FATAL: {message}");
         }
 
         public void LogFatal(object message, Exception exception)
         {
-            Console.WriteLine($"{GetUtcNow()} FATAL:{message} - Details:{exception}");
+            Console.WriteLine($"{GetUtcNow()} [{Name}] FATAL: {message} - Details:{exception}");
+        }
+
+        public void LogInfo(object message)
+        {
+            Console.WriteLine($"{GetUtcNow()} [{Name}] INFO: {message}");
+        }
+
+        public void LogTrace(object message)
+        {
+            Console.WriteLine($"{GetUtcNow()} [{Name}] TRACE: {message}");
+        }
+
+        public void LogWarning(object message)
+        {
+            Console.WriteLine($"{GetUtcNow()} [{Name}] WARNING: {message}");
+        }
+
+        public void LogWarning(object message, Exception exception)
+        {
+            Console.WriteLine($"{GetUtcNow()} [{Name}] WARNING: {message} - Details:{exception}");
+        }
+        
+        private static string GetUtcNow()
+        {
+            return DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
         }
     }
 }

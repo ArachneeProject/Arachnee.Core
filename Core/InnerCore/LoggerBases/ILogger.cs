@@ -4,6 +4,10 @@ namespace Arachnee.InnerCore.LoggerBases
 {
     public interface ILogger
     {
+        string Name { get; }
+
+        ILogger CreateSubLoggerFor(string subLoggerName);
+
         void LogTrace(object message);
 
         void LogDebug(object message);
