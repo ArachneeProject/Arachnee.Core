@@ -1,6 +1,5 @@
 ﻿using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
-using Arachnee.TmdbProviders.Offline;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -12,16 +11,22 @@ namespace Arachnee.TmdbProviders.Tests
     [TestFixture]
     public class OfflineDatabaseTests
     {
-        private string GetFolder()
+        private string GetResourceFolder()
         {
-            var path = Path.Combine(Constants.ApplicationFolder, "OfflineDatabase");
-            return path;
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(Arachnee));
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            return folder;
         }
 
         [Test]
         public async Task GetEntryAsync_MovieId_ReturnsCorrectMovie()
         {
-            var offlineDb = new OfflineDatabase(GetFolder(), new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var offlineDb = new OfflineDatabase(resourcesFolder, new ConsoleLogger());
             offlineDb.LoadMovies();
             var task = offlineDb.GetEntryAsync(Id.FromMovieNumber(280), new CancellationToken(), new Progress<double>());
 
@@ -37,7 +42,8 @@ namespace Arachnee.TmdbProviders.Tests
         [Test]
         public async Task GetEntryAsync_ArtistId_ReturnsCorrectArtist()
         {
-            var offlineDb = new OfflineDatabase(GetFolder(), new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var offlineDb = new OfflineDatabase(resourcesFolder, new ConsoleLogger());
             offlineDb.LoadArtists();
             var task = offlineDb.GetEntryAsync(Id.FromArtistNumber(54882), new CancellationToken(), new Progress<double>());
             var entry = await task;
@@ -52,7 +58,8 @@ namespace Arachnee.TmdbProviders.Tests
         [Test]
         public async Task GetEntryAsync_TvSeriesId_ReturnsCorrectTvSeries()
         {
-            var offlineDb = new OfflineDatabase(GetFolder(), new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var offlineDb = new OfflineDatabase(resourcesFolder, new ConsoleLogger());
             offlineDb.LoadTvSeries();
             var task = offlineDb.GetEntryAsync(Id.FromTvSeriesNumber(1408), new CancellationToken(), new Progress<double>());
             var entry = await task;

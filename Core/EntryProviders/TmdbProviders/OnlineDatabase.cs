@@ -1,8 +1,8 @@
-﻿using Arachnee.InnerCore.EntryProviderBases;
-using Arachnee.InnerCore.LoggerBases;
+﻿using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using TMDbLib.Client;
@@ -14,15 +14,29 @@ using TMDbLib.Objects.TvShows;
 using Movie = Arachnee.InnerCore.Models.Movie;
 using TmdbMovie = TMDbLib.Objects.Movies.Movie;
 
-namespace Arachnee.TmdbProviders.Online
+namespace Arachnee.TmdbProviders
 {
-    public class OnlineDatabase : EntryProvider
+    public class OnlineDatabase : TmdbDatabase
     {
-        private readonly TMDbClient _client = new TMDbClient(Constants.ApiKey);
-        private readonly TmdbConverter _tmdbConverter = new TmdbConverter();
+        private const string ApiKeyFileName = "key";
+
+        private readonly TMDbClient _client;
         
-        public OnlineDatabase(ILogger logger) : base(logger)
+        public OnlineDatabase(string resourcesFolder, ILogger logger) : base(resourcesFolder, logger)
         {
+            var apiKeyFilePath = Path.Combine(ResourcesFolder, ApiKeyFileName);
+            if (!File.Exists(apiKeyFilePath))
+            {
+                throw new FileNotFoundException($"API key was not found at \"{apiKeyFilePath}\".");
+            }
+
+            var key = File.ReadAllText(apiKeyFilePath);
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException($"API key not found inside file at \"{apiKeyFilePath}\".");
+            }
+
+            _client = new TMDbClient(key);
         }
 
         public override async Task<IList<SearchResult>> GetSearchResultsAsync(string searchQuery, CancellationToken cancellationToken, IProgress<double> progress = null)
@@ -47,7 +61,7 @@ namespace Arachnee.TmdbProviders.Online
             var results = new List<SearchResult>();
             foreach (var searchBase in res.Results)
             {
-                var searchResult = _tmdbConverter.Convert(searchBase);
+                var searchResult = TmdbConverter.Convert(searchBase);
                 results.Add(searchResult);
             }
 
@@ -80,7 +94,7 @@ namespace Arachnee.TmdbProviders.Online
                         break;
                     }
 
-                    entry = _tmdbConverter.ConvertMovie(tmdbMovie);
+                    entry = TmdbConverter.ConvertMovie(tmdbMovie);
                     break;
 
                 case IdType.Artist:
@@ -95,7 +109,7 @@ namespace Arachnee.TmdbProviders.Online
                         break;
                     }
                         
-                    entry = _tmdbConverter.ConvertPerson(tmdbPerson);
+                    entry = TmdbConverter.ConvertPerson(tmdbPerson);
                     break;
 
                 case IdType.TvSeries:
@@ -110,7 +124,7 @@ namespace Arachnee.TmdbProviders.Online
                         break;
                     }
 
-                    entry = _tmdbConverter.ConvertTvSeries(tmdbSeries);
+                    entry = TmdbConverter.ConvertTvSeries(tmdbSeries);
                     break;
 
                 default:

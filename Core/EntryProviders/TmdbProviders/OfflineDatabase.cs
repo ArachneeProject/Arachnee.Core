@@ -1,5 +1,4 @@
-﻿using Arachnee.InnerCore.EntryProviderBases;
-using Arachnee.InnerCore.LoggerBases;
+﻿using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
 using Newtonsoft.Json;
 using System;
@@ -12,22 +11,15 @@ using TMDbLib.Objects.People;
 using TMDbLib.Objects.TvShows;
 using Movie = TMDbLib.Objects.Movies.Movie;
 
-namespace Arachnee.TmdbProviders.Offline
+namespace Arachnee.TmdbProviders
 {
-    public class OfflineDatabase : EntryProvider
+    // TODO: to improve
+    public class OfflineDatabase : TmdbDatabase
     {
-        private readonly string _folder;
-        private readonly TmdbConverter _converter = new TmdbConverter();
         private readonly ConcurrentDictionary<Id, Entry> _offlineDatabase = new ConcurrentDictionary<Id, Entry>();
 
-        public OfflineDatabase(string databaseFolder, ILogger logger) : base(logger)
+        public OfflineDatabase(string resourcesFolder, ILogger logger) : base(resourcesFolder, logger)
         {
-            if (!Directory.Exists(databaseFolder))
-            {
-                throw new ArgumentException($"Offline database folder doesn't exist at \"{databaseFolder}\".");
-            }
-
-            _folder = databaseFolder;
         }
 
         public void LoadAll()
@@ -41,7 +33,7 @@ namespace Arachnee.TmdbProviders.Offline
         {
             Logger?.LogDebug("Loading movies...");
 
-            var moviesFile = Path.Combine(_folder, $"{nameof(Movie)}.json");
+            var moviesFile = Path.Combine(ResourcesFolder, $"{nameof(Movie)}.json");
 
             if (!File.Exists(moviesFile))
             {
@@ -56,7 +48,7 @@ namespace Arachnee.TmdbProviders.Offline
                     var line = streamReader.ReadLine();
                     var tmdbMovie = JsonConvert.DeserializeObject<Movie>(line);
 
-                    var movie = _converter.ConvertMovie(tmdbMovie);
+                    var movie = TmdbConverter.ConvertMovie(tmdbMovie);
                     if (Entry.IsNullOrDefault(movie))
                     {
                         continue;
@@ -71,7 +63,7 @@ namespace Arachnee.TmdbProviders.Offline
 
         public void LoadArtists()
         {
-            var artistsFile = Path.Combine(_folder, $"{nameof(Person)}.json");
+            var artistsFile = Path.Combine(ResourcesFolder, $"{nameof(Person)}.json");
 
             if (!File.Exists(artistsFile))
             {
@@ -86,7 +78,7 @@ namespace Arachnee.TmdbProviders.Offline
                     var line = streamReader.ReadLine();
                     var tmdbPerson = JsonConvert.DeserializeObject<Person>(line);
 
-                    var artist = _converter.ConvertPerson(tmdbPerson);
+                    var artist = TmdbConverter.ConvertPerson(tmdbPerson);
                     if (Entry.IsNullOrDefault(artist))
                     {
                         continue;
@@ -99,7 +91,7 @@ namespace Arachnee.TmdbProviders.Offline
 
         public void LoadTvSeries()
         {
-            var tvSeriesFile = Path.Combine(_folder, $"{nameof(TvSeries)}.json");
+            var tvSeriesFile = Path.Combine(ResourcesFolder, $"{nameof(TvSeries)}.json");
 
             if (!File.Exists(tvSeriesFile))
             {
@@ -114,7 +106,7 @@ namespace Arachnee.TmdbProviders.Offline
                     var line = streamReader.ReadLine();
                     var tmdbTvSeries = JsonConvert.DeserializeObject<TvShow>(line);
 
-                    var tvSeries = _converter.ConvertTvSeries(tmdbTvSeries);
+                    var tvSeries = TmdbConverter.ConvertTvSeries(tmdbTvSeries);
                     if (Entry.IsNullOrDefault(tvSeries))
                     {
                         continue;

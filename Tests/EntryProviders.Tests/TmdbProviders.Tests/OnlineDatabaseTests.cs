@@ -1,8 +1,8 @@
 ﻿using Arachnee.InnerCore.LoggerBases;
 using Arachnee.InnerCore.Models;
-using Arachnee.TmdbProviders.Online;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +11,22 @@ namespace Arachnee.TmdbProviders.Tests
     [TestFixture]
     public class OnlineDatabaseTests
     {
+        private string GetResourceFolder()
+        {
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(Arachnee));
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            return folder;
+        }
+
         [Test]
         public async Task GetEntryAsync_MovieId_ReturnsCorrectMovie()
         {
-            var onlineDb = new OnlineDatabase(new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var onlineDb = new OnlineDatabase(resourcesFolder, new ConsoleLogger());
             var task = onlineDb.GetEntryAsync(Id.FromMovieNumber(280), new CancellationToken(), new Progress<double>());
             var entry = await task;
 
@@ -28,7 +40,8 @@ namespace Arachnee.TmdbProviders.Tests
         [Test]
         public async Task GetEntryAsync_ArtistId_ReturnsCorrectArtist()
         {
-            var onlineDb = new OnlineDatabase(new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var onlineDb = new OnlineDatabase(resourcesFolder, new ConsoleLogger());
             var task = onlineDb.GetEntryAsync(Id.FromArtistNumber(1100), new CancellationToken(), new Progress<double>());
             var entry = await task;
 
@@ -42,7 +55,8 @@ namespace Arachnee.TmdbProviders.Tests
         [Test]
         public async Task GetEntryAsync_TvSeriesId_ReturnsCorrectTvSeries()
         {
-            var onlineDb = new OnlineDatabase(new ConsoleLogger());
+            var resourcesFolder = GetResourceFolder();
+            var onlineDb = new OnlineDatabase(resourcesFolder, new ConsoleLogger());
             var task = onlineDb.GetEntryAsync(Id.FromTvSeriesNumber(1668), new CancellationToken(), new Progress<double>());
             var entry = await task;
 
