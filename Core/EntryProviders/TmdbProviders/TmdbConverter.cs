@@ -8,7 +8,6 @@ using TmdbMovie = TMDbLib.Objects.Movies.Movie;
 
 namespace Arachnee.TmdbProviders
 {
-    // TODO: Add Logger
     public class TmdbConverter
     {
         private const double MinPopularity = 0.1;
@@ -59,7 +58,7 @@ namespace Arachnee.TmdbProviders
                 Popularity = tmdbMovie.Popularity
             };
             
-            // TODO: create the connections
+            // create the connections
 
             return movie;
         }
@@ -106,7 +105,7 @@ namespace Arachnee.TmdbProviders
                 Popularity = tmdbPerson.Popularity,
             };
             
-            // TODO: create the connections
+            // create the connections
             
             //foreach (var cast in tmdbPerson.MovieCredits.Cast.Where(c => c.!string.IsNullOrEmpty(c.PosterPath)))
             //{
@@ -186,7 +185,7 @@ namespace Arachnee.TmdbProviders
                 Popularity = tmdbSeries.Popularity,
             };
 
-            // TODO: create the connections
+            // create the connections
 
             return tv;
         }

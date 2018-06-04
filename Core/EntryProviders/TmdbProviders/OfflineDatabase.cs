@@ -13,7 +13,6 @@ using Movie = TMDbLib.Objects.Movies.Movie;
 
 namespace Arachnee.TmdbProviders
 {
-    // TODO: to improve
     public class OfflineDatabase : TmdbDatabase
     {
         private readonly ConcurrentDictionary<Id, Entry> _offlineDatabase = new ConcurrentDictionary<Id, Entry>();
