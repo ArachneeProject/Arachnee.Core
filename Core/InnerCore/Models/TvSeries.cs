@@ -22,6 +22,7 @@ namespace Arachnee.InnerCore.Models
         public string Status { get; set; }
         public double VoteAverage { get; set; }
         public long VoteCount { get; set; }
+        public List<string> Genres { get; set; }
 
         public TvSeries(Id id) : base(id)
         {
